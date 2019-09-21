@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.cjf.jinterviewback.dao.InterviewMapper">
+  <resultMap id="BaseResultMap" type="io.cjf.jinterviewback.po.Interview">
+    <id column="interview_id" jdbcType="INTEGER" property="interviewId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="company_name" jdbcType="VARCHAR" property="companyName" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="time" jdbcType="TIMESTAMP" property="time" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="suggestion" jdbcType="INTEGER" property="suggestion" />
+    <result column="comment" jdbcType="VARCHAR" property="comment" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    interview_id, user_id, company_name, address, time, status, suggestion, comment
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from interview
+    where interview_id = #{interviewId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from interview
+    where interview_id = #{interviewId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="io.cjf.jinterviewback.po.Interview">
+    insert into interview (interview_id, user_id, company_name, 
+      address, time, status, 
+      suggestion, comment)
+    values (#{interviewId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{companyName,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{time,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, 
+      #{suggestion,jdbcType=INTEGER}, #{comment,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="io.cjf.jinterviewback.po.Interview">
+    insert into interview
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="interviewId != null">
+        interview_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="companyName != null">
+        company_name,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="time != null">
+        time,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="suggestion != null">
+        suggestion,
+      </if>
+      <if test="comment != null">
+        comment,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="interviewId != null">
+        #{interviewId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="companyName != null">
+        #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null">
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="suggestion != null">
+        #{suggestion,jdbcType=INTEGER},
+      </if>
+      <if test="comment != null">
+        #{comment,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="io.cjf.jinterviewback.po.Interview">
+    update interview
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="companyName != null">
+        company_name = #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null">
+        time = #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="suggestion != null">
+        suggestion = #{suggestion,jdbcType=INTEGER},
+      </if>
+      <if test="comment != null">
+        comment = #{comment,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where interview_id = #{interviewId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="io.cjf.jinterviewback.po.Interview">
+    update interview
+    set user_id = #{userId,jdbcType=INTEGER},
+      company_name = #{companyName,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      time = #{time,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER},
+      suggestion = #{suggestion,jdbcType=INTEGER},
+      comment = #{comment,jdbcType=VARCHAR}
+    where interview_id = #{interviewId,jdbcType=INTEGER}
+  </update>
+</mapper>
