@@ -79,4 +79,12 @@
       mobile = #{mobile,jdbcType=VARCHAR}
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
+
+  <!--custom-->
+  <select id="selectByMobile" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user
+    where mobile = #{mobile,jdbcType=VARCHAR}
+  </select>
 </mapper>

@@ -1,6 +1,7 @@
 package io.cjf.jinterviewback.dao;
 
 import io.cjf.jinterviewback.po.User;
+import org.apache.ibatis.annotations.Param;
 
 public interface UserMapper {
     int deleteByPrimaryKey(Integer userId);
@@ -14,4 +15,7 @@ public interface UserMapper {
     int updateByPrimaryKeySelective(User record);
 
     int updateByPrimaryKey(User record);
+
+//    custom
+    User selectByMobile(@Param("mobile") String mobile);
 }
