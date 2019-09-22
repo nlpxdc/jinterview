@@ -1,10 +1,13 @@
 package io.cjf.jinterviewback.po;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class User {
     private Integer userId;
 
     private String name;
 
+    @JsonIgnore
     private String encryptedPassword;
 
     private String mobile;

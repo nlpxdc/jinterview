@@ -19,6 +19,17 @@
     <result column="status" jdbcType="INTEGER" property="status" />
     <association property="name" column="user_id" javaType="java.lang.String" select="io.cjf.jinterviewback.dao.UserMapper.selectNameByUserId"/>
   </resultMap>
+  <resultMap id="InterviewGetDTO" type="io.cjf.jinterviewback.dto.InterviewGetDTO">
+    <id column="interview_id" jdbcType="INTEGER" property="interviewId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="company_name" jdbcType="VARCHAR" property="companyName" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="time" jdbcType="TIMESTAMP" property="time" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="suggestion" jdbcType="INTEGER" property="suggestion" />
+    <result column="comment" jdbcType="VARCHAR" property="comment" />
+    <association property="user" column="user_id" javaType="io.cjf.jinterviewback.po.User" select="io.cjf.jinterviewback.dao.UserMapper.selectByPrimaryKey"/>
+  </resultMap>
   <sql id="Base_Column_List">
     interview_id, user_id, company_name, address, time, status, suggestion, comment
   </sql>
@@ -148,5 +159,11 @@
       </if>
     </where>
     order by time desc
+  </select>
+  <select id="selectById" parameterType="java.lang.Integer" resultMap="InterviewGetDTO">
+    select
+    <include refid="Base_Column_List" />
+    from interview
+    where interview_id = #{interviewId,jdbcType=INTEGER}
   </select>
 </mapper>

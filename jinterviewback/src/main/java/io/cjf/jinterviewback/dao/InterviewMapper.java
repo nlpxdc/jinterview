@@ -1,5 +1,6 @@
 package io.cjf.jinterviewback.dao;
 
+import io.cjf.jinterviewback.dto.InterviewGetDTO;
 import io.cjf.jinterviewback.dto.InterviewListDTO;
 import io.cjf.jinterviewback.po.Interview;
 import org.apache.ibatis.annotations.Param;
@@ -23,4 +24,6 @@ public interface InterviewMapper {
 //    custom
     List<InterviewListDTO> selectRecent(@Param("fromTime") Date fromTime,
                                         @Param("userId") Integer userId);
+
+    InterviewGetDTO selectById(@Param("interviewId") Integer interviewId);
 }

@@ -1,8 +1,10 @@
 package io.cjf.jinterviewback.controller;
 
 import io.cjf.jinterviewback.dao.InterviewMapper;
+import io.cjf.jinterviewback.dto.InterviewGetDTO;
 import io.cjf.jinterviewback.dto.InterviewListDTO;
 import io.cjf.jinterviewback.po.User;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,5 +40,11 @@ public class InterviewController {
         }
         List<InterviewListDTO> interviewListDTOS = interviewMapper.selectRecent(fromTime, userId);
         return interviewListDTOS;
+    }
+
+    @GetMapping("/getById")
+    public InterviewGetDTO getById(@RequestParam Integer interviewId){
+        InterviewGetDTO interviewGetDTO = interviewMapper.selectById(interviewId);
+        return interviewGetDTO;
     }
 }
