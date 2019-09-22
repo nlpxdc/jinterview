@@ -1,6 +1,11 @@
 package io.cjf.jinterviewback.dao;
 
+import io.cjf.jinterviewback.dto.InterviewListDTO;
 import io.cjf.jinterviewback.po.Interview;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.Date;
+import java.util.List;
 
 public interface InterviewMapper {
     int deleteByPrimaryKey(Integer interviewId);
@@ -14,4 +19,8 @@ public interface InterviewMapper {
     int updateByPrimaryKeySelective(Interview record);
 
     int updateByPrimaryKey(Interview record);
+
+//    custom
+    List<InterviewListDTO> selectRecent(@Param("fromTime") Date fromTime,
+                                        @Param("userId") Integer userId);
 }

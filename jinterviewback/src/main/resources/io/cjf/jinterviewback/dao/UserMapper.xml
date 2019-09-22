@@ -84,7 +84,13 @@
   <select id="selectByMobile" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
-    from user
+    from `user`
     where mobile = #{mobile,jdbcType=VARCHAR}
+  </select>
+  <select id="selectNameByUserId" parameterType="java.lang.Integer" resultType="java.lang.String">
+    select
+    `name`
+    from `user`
+    where user_id = #{userId,jdbcType=VARCHAR}
   </select>
 </mapper>

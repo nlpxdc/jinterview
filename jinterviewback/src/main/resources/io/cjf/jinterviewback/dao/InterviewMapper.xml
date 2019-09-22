@@ -11,6 +11,14 @@
     <result column="suggestion" jdbcType="INTEGER" property="suggestion" />
     <result column="comment" jdbcType="VARCHAR" property="comment" />
   </resultMap>
+  <resultMap id="InterviewListDTO" type="io.cjf.jinterviewback.dto.InterviewListDTO">
+    <id column="interview_id" jdbcType="INTEGER" property="interviewId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="company_name" jdbcType="VARCHAR" property="companyName" />
+    <result column="time" jdbcType="TIMESTAMP" property="time" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <association property="name" column="user_id" javaType="java.lang.String" select="io.cjf.jinterviewback.dao.UserMapper.selectNameByUserId"/>
+  </resultMap>
   <sql id="Base_Column_List">
     interview_id, user_id, company_name, address, time, status, suggestion, comment
   </sql>
@@ -125,4 +133,20 @@
       comment = #{comment,jdbcType=VARCHAR}
     where interview_id = #{interviewId,jdbcType=INTEGER}
   </update>
+
+  <!--custom-->
+  <select id="selectRecent" resultMap="InterviewListDTO">
+    select
+    <include refid="Base_Column_List" />
+    from interview
+    <where>
+      <if test="userId != null">
+        user_id = #{userId}
+      </if>
+      <if test="fromTime != null">
+        AND time &lt; #{fromTime}
+      </if>
+    </where>
+    order by time desc
+  </select>
 </mapper>
