@@ -1,15 +1,14 @@
 package io.cjf.jinterviewback.controller;
 
 import io.cjf.jinterviewback.dao.InterviewMapper;
+import io.cjf.jinterviewback.dto.InterviewCreateDTO;
 import io.cjf.jinterviewback.dto.InterviewGetDTO;
 import io.cjf.jinterviewback.dto.InterviewListDTO;
+import io.cjf.jinterviewback.po.Interview;
 import io.cjf.jinterviewback.po.User;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.Date;
@@ -46,5 +45,28 @@ public class InterviewController {
     public InterviewGetDTO getById(@RequestParam Integer interviewId){
         InterviewGetDTO interviewGetDTO = interviewMapper.selectById(interviewId);
         return interviewGetDTO;
+    }
+
+    @PostMapping("/create")
+    public Integer create(@RequestBody InterviewCreateDTO interviewCreateDTO) throws Exception {
+        Interview interview = new Interview();
+        interview.setCompanyName(interviewCreateDTO.getCompanyName());
+        interview.setAddress(interviewCreateDTO.getAddress());
+        interview.setTime(interviewCreateDTO.getTime());
+        interview.setStatus(interviewCreateDTO.getStatus());
+        interview.setSuggestion(interviewCreateDTO.getSuggestion());
+        interview.setComment(interviewCreateDTO.getComment());
+
+        String sessionId = httpSession.getId();
+        User currentUser = (User) httpSession.getAttribute(sessionId);
+        if (currentUser == null){
+            throw new Exception("user doesn't login");
+        }
+        Integer userId = currentUser.getUserId();
+        interview.setUserId(userId);
+
+        interviewMapper.insert(interview);
+        Integer interviewId = interview.getInterviewId();
+        return interviewId;
     }
 }

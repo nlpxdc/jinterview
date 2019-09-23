@@ -43,11 +43,11 @@
     delete from interview
     where interview_id = #{interviewId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="io.cjf.jinterviewback.po.Interview">
-    insert into interview (interview_id, user_id, company_name, 
+  <insert id="insert" parameterType="io.cjf.jinterviewback.po.Interview" useGeneratedKeys="true" keyProperty="interviewId">
+    insert into interview (user_id, company_name,
       address, time, status, 
       suggestion, comment)
-    values (#{interviewId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{companyName,jdbcType=VARCHAR}, 
+    values (#{userId,jdbcType=INTEGER}, #{companyName,jdbcType=VARCHAR},
       #{address,jdbcType=VARCHAR}, #{time,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, 
       #{suggestion,jdbcType=INTEGER}, #{comment,jdbcType=VARCHAR})
   </insert>
