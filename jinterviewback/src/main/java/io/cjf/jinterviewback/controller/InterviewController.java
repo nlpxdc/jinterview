@@ -4,6 +4,7 @@ import io.cjf.jinterviewback.dao.InterviewMapper;
 import io.cjf.jinterviewback.dto.InterviewCreateDTO;
 import io.cjf.jinterviewback.dto.InterviewGetDTO;
 import io.cjf.jinterviewback.dto.InterviewListDTO;
+import io.cjf.jinterviewback.dto.InterviewUpdateDTO;
 import io.cjf.jinterviewback.po.Interview;
 import io.cjf.jinterviewback.po.User;
 import org.apache.ibatis.annotations.Param;
@@ -68,5 +69,28 @@ public class InterviewController {
         interviewMapper.insert(interview);
         Integer interviewId = interview.getInterviewId();
         return interviewId;
+    }
+
+    @PostMapping("/update")
+    public void update(@RequestBody InterviewUpdateDTO interviewUpdateDTO) throws Exception {
+        Integer interviewId = interviewUpdateDTO.getInterviewId();
+        Interview interview = interviewMapper.selectByPrimaryKey(interviewId);
+        Integer userIdDB = interview.getUserId();
+
+        String sessionId = httpSession.getId();
+        User currentUser = (User) httpSession.getAttribute(sessionId);
+        if (currentUser == null){
+            throw new Exception("user doesn't login");
+        }
+        Integer currentUserUserId = currentUser.getUserId();
+        if (currentUserUserId != userIdDB){
+            throw new Exception("you can't change others interview");
+        }
+
+        interview.setStatus(interviewUpdateDTO.getStatus());
+        interview.setSuggestion(interviewUpdateDTO.getSuggestion());
+        interview.setComment(interviewUpdateDTO.getComment());
+
+        interviewMapper.updateByPrimaryKey(interview);
     }
 }
