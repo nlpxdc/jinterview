@@ -93,4 +93,22 @@ public class InterviewController {
 
         interviewMapper.updateByPrimaryKey(interview);
     }
+
+    @PostMapping("/delete")
+    public void delete(@RequestBody Integer interviewId) throws Exception {
+        String sessionId = httpSession.getId();
+        User currentUser = (User) httpSession.getAttribute(sessionId);
+        if (currentUser == null){
+            throw new Exception("user doen't login");
+        }
+        Integer currentUserUserId = currentUser.getUserId();
+
+        Interview interview = interviewMapper.selectByPrimaryKey(interviewId);
+        Integer userIdDB = interview.getUserId();
+
+        if (currentUserUserId != userIdDB){
+            throw new Exception("you cannot delete other interview");
+        }
+        interviewMapper.deleteByPrimaryKey(interviewId);
+    }
 }
